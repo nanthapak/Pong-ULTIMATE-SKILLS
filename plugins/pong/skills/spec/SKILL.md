@@ -5,6 +5,11 @@ description: Writes docs/spec.md, the technical design covering stack, architect
 
 Write `docs/spec.md` using [templates/SPEC.md](templates/SPEC.md).
 
+## Extensions
+Before starting, check the available skills for any whose description starts
+with "Extends" and names `pong:spec`. Load each one that applies to this
+project with the Skill tool and follow it alongside these instructions. If none exist, carry on.
+
 ## Inputs
 1. `docs/prd.md`. **Required.** If it doesn't exist, stop and suggest `/pong:prd`.
 2. `docs/decisions.md`, CLAUDE.md, and any existing code. In an existing

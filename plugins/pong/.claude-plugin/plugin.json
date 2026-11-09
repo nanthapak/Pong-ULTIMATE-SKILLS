@@ -1,7 +1,7 @@
 {
   "name": "pong",
   "displayName": "Pong Ultimate Skills",
-  "version": "0.2.0",
+  "version": "0.3.0",
   "description": "Full workflow: plan a project (grill \u2192 PRD \u2192 spec \u2192 tickets), then build each ticket with Opus planning, Sonnet implementing and Opus reviewing. Plus guard/format hooks for Python and TypeScript.",
   "author": {
     "name": "nanthapak"

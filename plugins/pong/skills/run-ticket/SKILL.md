@@ -7,6 +7,11 @@ argument-hint: [ticket-id]
 
 Ticket: $ARGUMENTS
 
+## Extensions
+Before starting, check the available skills for any whose description starts
+with "Extends" and names `pong:run-ticket`. Load each one that applies to this
+project with the Skill tool and follow it alongside these instructions. If none exist, carry on.
+
 Copy this checklist and tick it off as you go:
 
 ```
@@ -35,7 +40,8 @@ Copy this checklist and tick it off as you go:
 - **Only proceed when everything passes.**
 
 ## 4. Review
-- Delegate to the `pong:reviewer` subagent with the ticket id and base commit.
+- Delegate to the `pong:reviewer` subagent with the ticket id, base commit, and
+  anything an extension produced for review (e.g. screenshot paths).
 - HIGH findings → back to `pong:implementer` once, then repeat step 3.
 - MED/LOW findings → list them for me. Don't fix them automatically.
 

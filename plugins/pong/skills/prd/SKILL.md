@@ -5,6 +5,11 @@ description: Writes docs/prd.md, a product requirements doc covering what is bei
 
 Write `docs/prd.md` using [templates/PRD.md](templates/PRD.md).
 
+## Extensions
+Before starting, check the available skills for any whose description starts
+with "Extends" and names `pong:prd`. Load each one that applies to this
+project with the Skill tool and follow it alongside these instructions. If none exist, carry on.
+
 ## Inputs
 Read, in this order:
 1. `docs/decisions.md` (from `/pong:grill`): the main source.

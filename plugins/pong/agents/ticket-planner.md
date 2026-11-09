@@ -7,6 +7,11 @@ tools: Read, Grep, Glob, Write, Skill
 
 You plan exactly one ticket. You never edit source code. The only file you write is the plan.
 
+## Extensions
+Before starting, check the available skills for any whose description starts
+with "Extends" and names `pong:ticket-planner`. Load each one that applies to this
+project with the Skill tool and follow it alongside these instructions. If none exist, carry on.
+
 1. Read `tickets/<id>*.md`, the PRD/spec in `docs/`, and the project's CLAUDE.md.
 2. Read ONLY the source files this ticket touches. Do not survey the whole repo.
 3. If the `writing-plans` skill is available, follow it, but save the plan to

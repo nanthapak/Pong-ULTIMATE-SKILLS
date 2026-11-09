@@ -1,6 +1,6 @@
 {
   "name": "pong-ultimate-skills",
-  "description": "Pong's personal Claude Code setup: ticket pipeline with Opus planning and Sonnet implementing, plus safety and formatting hooks.",
+  "description": "Pong's Claude Code workflow: a core plugin built on engineering basics, plus optional add-ons.",
   "owner": {
     "name": "nanthapak"
   },
@@ -8,7 +8,12 @@
     {
       "name": "pong",
       "source": "./plugins/pong",
-      "description": "Plan a project (grill \u2192 PRD \u2192 spec \u2192 tickets), then build each ticket with subagents (Opus plans, Sonnet implements, Opus reviews). Guard and format hooks for Python and TypeScript."
+      "description": "Core: plan a project (grill \u2192 PRD \u2192 spec \u2192 tickets), then build each ticket with subagents (Opus plans, Sonnet implements, Opus reviews). Guard and format hooks for Python and TypeScript."
+    },
+    {
+      "name": "pong-ui",
+      "source": "./plugins/pong-ui",
+      "description": "Add-on for pong: uses your UI reference images in docs/ui/ at every step, from grill to review. Install pong first."
     }
   ]
 }

@@ -6,6 +6,11 @@ argument-hint: [the idea in one sentence]
 
 Idea: $ARGUMENTS
 
+## Extensions
+Before starting, check the available skills for any whose description starts
+with "Extends" and names `pong:grill`. Load each one that applies to this
+project with the Skill tool and follow it alongside these instructions. If none exist, carry on.
+
 Your job is to find every decision this idea needs, get the user to make it,
 and write it down. You are not writing a PRD or code yet.
 

@@ -7,6 +7,11 @@ description: Runs the project's typecheck, lint, tests, build and smoke test and
 Use the commands under `## Commands` in the project's CLAUDE.md. For any that
 are missing, detect them and tell me which ones you guessed:
 
+## Extensions
+Before starting, check the available skills for any whose description starts
+with "Extends" and names `pong:verify-app`. Load each one that applies to this
+project with the Skill tool and follow it alongside these instructions. If none exist, carry on.
+
 | Check | Python (pyproject.toml) | TypeScript (package.json) |
 |---|---|---|
 | Typecheck | `pyright` or `mypy .` (whichever is configured) | the `typecheck` script, else `tsc --noEmit` |

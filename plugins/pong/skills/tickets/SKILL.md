@@ -5,6 +5,11 @@ description: Breaks the PRD and spec into small vertical-slice tickets in ticket
 
 Create ticket files in `tickets/` using [templates/TICKET.md](templates/TICKET.md).
 
+## Extensions
+Before starting, check the available skills for any whose description starts
+with "Extends" and names `pong:tickets`. Load each one that applies to this
+project with the Skill tool and follow it alongside these instructions. If none exist, carry on.
+
 ## Inputs
 1. `docs/spec.md` and `docs/prd.md`. **Both required.** If either is missing,
    stop and suggest `/pong:spec` or `/pong:prd`.

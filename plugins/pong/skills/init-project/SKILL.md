@@ -7,6 +7,11 @@ disable-model-invocation: true
 Set up this project for the pong workflow. Never overwrite an existing file
 without showing me the diff and asking first.
 
+## Extensions
+Before starting, check the available skills for any whose description starts
+with "Extends" and names `pong:init-project`. Load each one that applies to this
+project with the Skill tool and follow it alongside these instructions. If none exist, carry on.
+
 ```
 - [ ] 1. Detect the stack
 - [ ] 2. CLAUDE.md

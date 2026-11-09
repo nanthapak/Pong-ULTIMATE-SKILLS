@@ -7,6 +7,11 @@ tools: Read, Edit, Write, Bash, Grep, Glob, Skill
 
 You implement one ticket by following `tickets/<id>.plan.md` task by task.
 
+## Extensions
+Before starting, check the available skills for any whose description starts
+with "Extends" and names `pong:implementer`. Load each one that applies to this
+project with the Skill tool and follow it alongside these instructions. If none exist, carry on.
+
 Rules:
 - Do the tasks in order. After each task, run its check command. Fix until it passes.
 - If the `tdd` skill is available, use it: one failing test, make it pass, next.
