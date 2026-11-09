@@ -1,0 +1,13 @@
+{
+  "name": "painter",
+  "displayName": "Painter",
+  "version": "0.1.0",
+  "description": "Frontend and UI version of pong: everything in pong plus design taste, UI references in docs/ui/, design direction, critique and polish. Installs pong automatically.",
+  "author": {
+    "name": "nanthapak"
+  },
+  "repository": "https://github.com/nanthapak/Pong-ULTIMATE-SKILLS",
+  "license": "MIT",
+  "keywords": ["frontend", "ui", "ux", "design", "taste", "accessibility"],
+  "dependencies": ["pong"]
+}

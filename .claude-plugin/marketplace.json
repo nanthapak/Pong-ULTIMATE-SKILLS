@@ -1,6 +1,6 @@
 {
   "name": "pong-ultimate-skills",
-  "description": "Pong's Claude Code workflow: a core plugin built on engineering basics, plus optional add-ons.",
+  "description": "Pong's Claude Code workflow. pong for any software; painter for frontend and UI work (includes pong).",
   "owner": {
     "name": "nanthapak"
   },
@@ -8,12 +8,12 @@
     {
       "name": "pong",
       "source": "./plugins/pong",
-      "description": "Core: plan a project (grill \u2192 PRD \u2192 spec \u2192 tickets), then build each ticket with subagents (Opus plans, Sonnet implements, Opus reviews). Guard and format hooks for Python and TypeScript."
+      "description": "For any software (backend, CLI, libraries, services): plan a project (grill \u2192 PRD \u2192 spec \u2192 tickets), then build each ticket with subagents (Opus plans, Sonnet implements, Opus reviews). Guard and format hooks for Python and TypeScript."
     },
     {
-      "name": "pong-ui",
-      "source": "./plugins/pong-ui",
-      "description": "Add-on for pong: uses your UI reference images in docs/ui/ at every step, from grill to review. Install pong first."
+      "name": "painter",
+      "source": "./plugins/painter",
+      "description": "For frontend and UI work: everything in pong (installed automatically) plus design taste, UI reference images, design direction, critique and polish."
     }
   ]
 }

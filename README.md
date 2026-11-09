@@ -1,177 +1,181 @@
 # Pong ULTIMATE Skills
 
-My personal Claude Code workflow, packaged as plugins so I can install it into
-any Python or TypeScript project.
+My personal Claude Code workflow, packaged as two plugins.
 
-| Plugin | What it is | Install when |
+## Which one do I install?
+
+| You're building | Install | You get |
 |---|---|---|
-| **`pong`** | Core: software engineering basics (plan → implement → verify → review) | Always |
-| **`pong-ui`** | Add-on: uses UI reference images in `docs/ui/` at every step | The project has a UI |
+| Backend, CLI, library, service, anything without a UI | **`pong`** | The engineering workflow: plan → implement → verify → review |
+| Frontend, desktop app, anything with a UI | **`painter`** | Everything in `pong` (installed automatically) **plus** design taste, UI references, design direction, critique and polish |
 
-The add-on plugs into the core through **extension points**, so there's only
-one copy of each core skill and every core improvement reaches both.
+One install, either way.
 
-**Plan** an idea into docs and tickets, then **build** each ticket with
-subagents: Opus plans, Sonnet implements, a fresh Opus reviews. Hooks stop
-Claude from pushing, deleting things or using the wrong package manager.
-
-## Install (once per machine)
-
-In Claude Code:
 ```
 /plugin marketplace add nanthapak/Pong-ULTIMATE-SKILLS
-/plugin install pong@pong-ultimate-skills
-```
-For projects with a UI, also install the add-on. Use `--scope project` so it's
-only on for that project:
-```
-/plugin install pong-ui@pong-ultimate-skills --scope project
-```
-Requires Node on your PATH (the hooks are Node scripts, so they work on Windows,
-macOS and Linux without jq or bash).
 
-Check it loaded: `/skills` should list the eight `pong:` skills (plus
-`pong-ui:setup` if you installed the add-on), and `/agents` the three `pong:` agents.
+/plugin install pong@pong-ultimate-skills        # any software
+/plugin install painter@pong-ultimate-skills     # UI work (brings pong with it)
+```
+Add `--scope project` to install for just the current project. Requires Node
+on your PATH (the hooks are Node scripts; they work on Windows, macOS and Linux).
 
-## Use it
+---
+
+## pong: the engineering workflow
 
 ```
-/pong:init-project                          # once per project: CLAUDE.md, docs/, tickets/, permissions
-                                            # (with pong-ui: also docs/ui/; drop your reference images there)
-
-/pong:plan-project "a CLI that turns CSV timesheets into PDF invoices"
-                                            # grill → PRD → spec → tickets, pausing after each
-
-/pong:run-ticket T-001                      # build one ticket: plan → your OK → implement → verify → review
-/pong:run-ticket T-002                      # …and so on, in the order in tickets/README.md
+/pong:init-project                 # once per project: CLAUDE.md, docs/, tickets/, permissions
+/pong:plan-project "<your idea>"   # grill → PRD → spec → tickets, pausing after each
+/pong:run-ticket T-001             # plan → your OK → implement → verify → review
 ```
 You review each finished ticket and push / open the PR yourself.
 
-## What's inside
-
-### Planning skills
+### Skills
 | Skill | Writes | What it does |
 |---|---|---|
-| `/pong:plan-project <idea>` | all of the below | Runs the four steps in order, pausing for your OK after each. Skips or updates steps already done |
-| `/pong:grill <idea>` | `docs/decisions.md` | Interviews you one question at a time, always with a suggested answer, until every decision is made |
-| `/pong:prd` | `docs/prd.md` | What and why: problem, users, numbered user stories (US-1…), scope, success criteria |
-| `/pong:spec` | `docs/spec.md` | How: stack, real commands, modules, data, interfaces, decisions, testing |
-| `/pong:tickets` | `tickets/T-*.md`, `tickets/README.md` | Vertical-slice tickets with `depends_on`, covered stories and real check commands; index with build order and story coverage |
+| `/pong:init-project` | CLAUDE.md, docs/, tickets/, .claude/settings.json | Detects Python (uv/Poetry/pip) or TypeScript (pnpm/npm/yarn/bun), fills in real commands, pre-approves safe ones |
+| `/pong:plan-project <idea>` | everything below | Runs the four planning steps in order, pausing for your OK after each |
+| `/pong:grill <idea>` | docs/decisions.md | Interviews you one question at a time, always with a suggested answer |
+| `/pong:prd` | docs/prd.md | What and why: problem, users, numbered user stories, scope, success criteria |
+| `/pong:spec` | docs/spec.md | How: stack, commands, modules, data, interfaces, decisions, testing |
+| `/pong:tickets` | tickets/ | Vertical-slice tickets with dependencies and real checks; index with build order |
+| `/pong:run-ticket <id>` | code, tickets/<id>.plan.md | Opus plans → **waits for your OK** → Sonnet implements → verify → Opus reviews |
+| `/pong:verify-app` | — | Typecheck, lint, test, build, smoke. PASS/FAIL |
 
-### Building skills
-| Skill | What it does |
-|---|---|
-| `/pong:init-project` | Detects Python (uv/Poetry/pip) or TypeScript (pnpm/npm/yarn/bun); writes CLAUDE.md with real commands; creates `docs/`, `tickets/`; pre-approves safe commands |
-| `/pong:run-ticket <id>` | Plan (Opus) → **waits for your OK** → implement (Sonnet) → verify → review (Opus) → hand off |
-| `/pong:verify-app` | Typecheck, lint, test, build, smoke. Reports PASS/FAIL. "Done" means this passed |
-
-### Agents (called by `run-ticket`)
+### Agents (used by run-ticket)
 | Agent | Model | Job |
 |---|---|---|
-| `ticket-planner` | Opus | Writes `tickets/<id>.plan.md` detailed enough for a cheaper model. Lists open questions instead of guessing. Never edits code |
-| `implementer` | Sonnet | Follows the plan task by task with tests. Stops if the plan is wrong. Commits, never pushes |
-| `reviewer` | Opus | Fresh-context review: spec, bugs, simplicity, standards, tests. Never edits |
+| `ticket-planner` | Opus | Writes a plan detailed enough for a cheaper model; lists open questions; never edits code |
+| `implementer` | Sonnet | Follows the plan task by task with tests; stops if the plan is wrong; commits, never pushes |
+| `reviewer` | Opus | Fresh-context review: spec, bugs, simplicity, standards, tests; never edits |
 
 ### Hooks (always on)
 - **guard-commands:** blocks `git push`, `reset --hard`, `clean -f`, `branch -D`,
   recursive deletes outside build/cache folders, the wrong package manager
-  (detected from the lockfile), and `pip install` in uv/Poetry projects.
-- **format-on-edit:** formats each edited file with the project's own
-  ruff/black or prettier/biome. Does nothing if none is installed.
+  (from the lockfile), and `pip install` in uv/Poetry projects.
+- **format-on-edit:** formats each edited file with the project's own ruff/black or prettier/biome.
 
-## The `pong-ui` add-on
+---
 
-Put screenshots, mockups or inspiration images in `docs/ui/` and list them in
-`docs/ui/README.md` with a **Kind**: `exact` (match closely), `mockup` (layout
-and content) or `inspiration` (overall feel). Add them **before**
-`/pong:plan-project`; you can add more later.
+## painter: pong + design
 
-| Add-on skill | Extends | What it adds |
+Same commands as pong, and every step becomes UI-aware. Plus four of its own:
+
+```
+/painter:setup                     # once: docs/ui/ for reference images + DESIGN.md
+                                   #   (runs automatically inside /pong:init-project)
+  → drop screenshots / mockups / inspiration into docs/ui/
+/painter:direction                 # pick a look: 3 directions → DESIGN.md tokens
+/pong:plan-project "<your idea>"   # now asks about screens, states and the design
+/pong:run-ticket T-001             # now builds to DESIGN.md and screenshot-checks the UI
+/painter:critique [screen]         # anytime: screenshot at 3 sizes, prioritized findings
+/painter:polish                    # fix the critique in batches, before/after screenshots
+```
+
+### Commands
+| Command | What it does |
+|---|---|
+| `/painter:setup` | Creates `docs/ui/README.md` (your references, each with a Kind: `exact`, `mockup` or `inspiration`) and `docs/ui/DESIGN.md`; adds a Screenshot command to CLAUDE.md |
+| `/painter:direction` | Proposes three distinct directions grounded in your product and references (mode, dials, palette, type, signature detail), then writes the chosen design system to DESIGN.md with AA-checked colors |
+| `/painter:critique` | Screenshots each screen at three sizes and judges it against DESIGN.md, the references and the taste rules. Reports HIGH/MED/LOW findings with file:line and a fix. Never edits |
+| `/painter:polish` | Fixes critique findings in batches (shared components and tokens first), re-runs tests, shows before → after |
+
+### What painter adds inside pong's steps (automatic)
+| Step | Added by | What changes |
 |---|---|---|
-| `/pong-ui:setup` | init-project | Creates `docs/ui/` + README index; adds a Screenshot command to CLAUDE.md |
-| `grill-ui` | grill | Opens every image first; asks about states, clicks, window size, theme; UI table in decisions |
-| `prd-ui` | prd | Screens table: screen → image → user stories |
-| `spec-ui` | spec | UI stack defaults, design tokens from the images, screen → component map, Screenshot command |
-| `tickets-ui` | tickets | `ui:` field on tickets, screenshot checks, tokens first, screen coverage |
-| `build-ui` | ticket-planner, implementer | Planner describes each screen in words; implementer opens images and uses tokens |
-| `check-ui` | run-ticket, verify-app, reviewer | Screenshots to `tickets/<id>.screens/`, compared with the references |
+| grill | `plan-ui` | Opens your images first; asks about screens, states, sizes, mode; runs direction if DESIGN.md is empty |
+| prd | `plan-ui` | Screens table: screen → reference → user stories |
+| spec | `plan-ui` | UI stack defaults, Screenshot command, screen → component map |
+| tickets | `plan-ui` | `ui:` field, screenshot checks, tokens-and-components ticket first, screen coverage |
+| planner / implementer | `build-ui` | Planner describes each screen in words; implementer uses tokens only and self-checks |
+| verify / review | `check-ui` | Screenshots at 3 sizes vs references, DESIGN.md and the taste checklist |
 
-Only `setup` is a command you type; the rest load automatically inside the core steps.
+### The taste rules
+`painter:taste` is the quality bar every painter step uses. It covers:
+- **Direction:** surface mode (Persuade, Experience, Operate, Read) and three dials (variance, motion, density)
+- **Craft:** typography, color, layout, component states, motion and accessibility
+- **Banned:** a list of patterns that look AI-generated
 
-### Files a project ends up with
+Your `DESIGN.md` and reference images always win over its defaults.
+
+It's written from ideas in popular skills on skills.sh: Anthropic's
+*frontend-design*, *taste-skill*, *impeccable* and Vercel's *web-design-guidelines*.
+It's our own text, so there's nothing extra to install or trust.
+
+---
+
+## Files a project ends up with
 ```
 my-project/
 ├── CLAUDE.md
-├── .claude/settings.json      ← permissions from init-project
+├── .claude/settings.json      ← permissions (init-project)
 ├── docs/
 │   ├── decisions.md           ← grill
 │   ├── prd.md                 ← prd
 │   ├── spec.md                ← spec
-│   └── ui/                    ← pong-ui: your reference images + README.md
+│   └── ui/                    ← painter only
+│       ├── README.md          ← your reference images, listed
+│       ├── DESIGN.md          ← design system (direction)
+│       └── 01-main.png …
 └── tickets/
-    ├── README.md              ← index, build order, story coverage
+    ├── README.md              ← index, build order, coverage
     ├── T-001-walking-skeleton.md
     ├── T-001.plan.md          ← ticket-planner
-    └── …
+    └── T-004.screens/         ← painter: screenshots from run-ticket
 ```
 
-## How extension points work
+---
 
-Every core skill and agent has an **Extensions** section:
+## How painter plugs into pong
 
-> Check the available skills for any whose description starts with "Extends"
-> and names `pong:<step>`. Load each one that applies and follow it alongside
-> these instructions.
+Every pong skill and agent has an **Extensions** section: it looks for
+installed skills whose description starts with "Extends" and names that step
+(e.g. `pong:spec`), and follows them too. Without painter, nothing matches and
+pong runs exactly as it does on its own. painter declares `pong` as a
+dependency in its `plugin.json`, which is why installing it brings pong along.
 
-So an add-on skill only needs a description like
-`Extends pong:spec. Adds … Use when …`. With the add-on uninstalled, nothing
-matches and the core runs exactly as before.
-
-**Writing a new add-on** (e.g. `pong-api` for API projects):
-1. Copy `plugins/pong-ui/` to `plugins/pong-api/`, rename it in its `plugin.json`.
-2. Write one skill per step you want to extend, each with a description starting
-   `Extends pong:<step>` and `user-invocable: false`.
+**Making another one** (e.g. `pong-api` for API projects):
+1. Copy `plugins/painter/`, rename it in `plugin.json`, keep `"dependencies": ["pong"]`.
+2. Write skills whose description starts `Extends pong:<step>.` with `user-invocable: false`.
 3. Add it to `.claude-plugin/marketplace.json`.
 
 Steps you can extend: `init-project`, `grill`, `prd`, `spec`, `tickets`,
 `run-ticket`, `verify-app`, `ticket-planner`, `implementer`, `reviewer`.
 
+---
+
 ## Improving it
 
-This is meant to grow. The loop:
-
 1. **Use it** on a real project.
-2. **Notice** where it went wrong: a vague plan, a bad ticket, a question grill
-   should have asked, a command the guard should block.
+2. **Notice** what went wrong.
 3. **Fix the right file:**
 
    | Problem | Edit |
    |---|---|
-   | Grill missed an important question | `skills/grill/SKILL.md` → "What to cover" |
-   | PRD/spec missing a section you always want | `skills/prd/templates/PRD.md` / `skills/spec/templates/SPEC.md` |
-   | Tickets too big/small/vague | `skills/tickets/SKILL.md` → "How to slice" |
-   | Sonnet keeps going off track | `agents/ticket-planner.md` (more detail), or `model: opus` in `agents/implementer.md` |
-   | Review misses things | `agents/reviewer.md` → "Check" list |
-   | Claude did something it must never do | `scripts/guard-commands.mjs` |
-   | Different stack defaults | `skills/spec/SKILL.md` → "Stack defaults" |
-   | Anything UI-specific | the matching skill in `plugins/pong-ui/skills/` |
+   | Grill missed a question | `plugins/pong/skills/grill/SKILL.md` |
+   | PRD/spec missing a section | `plugins/pong/skills/prd/templates/PRD.md` / `spec/templates/SPEC.md` |
+   | Tickets too big/small/vague | `plugins/pong/skills/tickets/SKILL.md` |
+   | Sonnet goes off track | `plugins/pong/agents/ticket-planner.md`, or `model: opus` in `implementer.md` |
+   | Review misses things | `plugins/pong/agents/reviewer.md` |
+   | Claude did something it must never do | `plugins/pong/scripts/guard-commands.mjs` |
+   | UI looks generic / a new design rule | `plugins/painter/skills/taste/SKILL.md` |
+   | Directions all look alike | `plugins/painter/skills/direction/SKILL.md` |
+   | UI planning/building/checking | `plugins/painter/skills/plan-ui`, `build-ui`, `check-ui` |
 
-4. **Test locally** before pushing:
+4. **Test locally:**
    ```
-   claude --plugin-dir ./plugins/pong --plugin-dir ./plugins/pong-ui
+   claude --plugin-dir ./plugins/pong --plugin-dir ./plugins/painter
    claude plugin validate .
    ```
-5. **Release:** bump `version` in the changed plugin's `.claude-plugin/plugin.json`,
-   add a line to `CHANGELOG.md`, push. Then on each machine: `/plugin` →
-   Marketplaces → update.
+5. **Release:** bump `version` in the changed plugin's `plugin.json`, add a
+   line to `CHANGELOG.md`, push. Then `/plugin` → Marketplaces → update.
 
-Tips for editing skills:
-- Keep each `SKILL.md` under ~500 lines; put long reference material in a separate file next to it and link it.
-- The `description` decides when Claude uses a skill. Say what it does **and** when to use it.
-- Don't add `disable-model-invocation: true` to a skill another skill calls
-  (grill, prd, spec, tickets, verify-app, or any add-on skill), or it can't be loaded.
-- Keep UI-only ideas out of the core. If it only matters for some projects, it
-  belongs in an add-on.
+Tips:
+- Keep each `SKILL.md` under ~500 lines; move long reference material to a file next to it.
+- A skill's `description` decides when Claude uses it: say what it does **and** when.
+- Don't put `disable-model-invocation: true` on a skill another skill loads.
+- Rules for all software go in **pong**; UI-only rules go in **painter**.
 
 ## License
 MIT
