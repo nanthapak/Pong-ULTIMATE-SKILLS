@@ -1,0 +1,12 @@
+{
+  "name": "pong",
+  "displayName": "Pong Ultimate Skills",
+  "version": "0.1.0",
+  "description": "Ticket pipeline (Opus plans, Sonnet implements, Opus reviews), project bootstrap, and guard/format hooks for Python and TypeScript projects.",
+  "author": {
+    "name": "nanthapak"
+  },
+  "repository": "https://github.com/nanthapak/Pong-ULTIMATE-SKILLS",
+  "license": "MIT",
+  "keywords": ["workflow", "subagents", "tickets", "python", "typescript"]
+}

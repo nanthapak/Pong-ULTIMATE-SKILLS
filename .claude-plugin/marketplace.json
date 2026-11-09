@@ -1,0 +1,14 @@
+{
+  "name": "pong-ultimate-skills",
+  "description": "Pong's personal Claude Code setup: ticket pipeline with Opus planning and Sonnet implementing, plus safety and formatting hooks.",
+  "owner": {
+    "name": "nanthapak"
+  },
+  "plugins": [
+    {
+      "name": "pong",
+      "source": "./plugins/pong",
+      "description": "Plan → implement → verify → review pipeline with subagents, project bootstrap, and guard/format hooks for Python and TypeScript."
+    }
+  ]
+}
