@@ -29,8 +29,8 @@ and fill in everything you detected. Leave `<TODO>` only for what you truly
 can't detect. If one exists, offer to add only the missing sections.
 
 ## 3. Folders
-Create `docs/` and `tickets/`, and copy [templates/TICKET.md](templates/TICKET.md)
-to `tickets/_TEMPLATE.md`.
+Create `docs/` and `tickets/`, and copy the ticket template from
+`${CLAUDE_SKILL_DIR}/../tickets/templates/TICKET.md` to `tickets/_TEMPLATE.md`.
 
 ## 4. Permissions
 Pre-approve safe commands in `.claude/settings.json` (merge with any existing
@@ -50,6 +50,6 @@ List what you created or changed, the commands you detected, and any `<TODO>`s
 left. Then tell me the next steps:
 
 1. Fill the remaining TODOs in CLAUDE.md.
-2. Plan the project: `/grill-me` → `/to-prd` → `/to-spec` → `/to-tickets`
-   (if those skills aren't installed, show the install commands from this plugin's README).
+2. Plan the project: `/pong:plan-project <idea>`
+   (or step by step: `/pong:grill` → `/pong:prd` → `/pong:spec` → `/pong:tickets`).
 3. Build tickets one at a time: `/pong:run-ticket T-001`.

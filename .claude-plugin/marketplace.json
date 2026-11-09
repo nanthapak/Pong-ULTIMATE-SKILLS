@@ -8,7 +8,7 @@
     {
       "name": "pong",
       "source": "./plugins/pong",
-      "description": "Plan → implement → verify → review pipeline with subagents, project bootstrap, and guard/format hooks for Python and TypeScript."
+      "description": "Plan a project (grill \u2192 PRD \u2192 spec \u2192 tickets), then build each ticket with subagents (Opus plans, Sonnet implements, Opus reviews). Guard and format hooks for Python and TypeScript."
     }
   ]
 }

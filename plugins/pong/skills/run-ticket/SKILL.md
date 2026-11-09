@@ -25,7 +25,7 @@ Copy this checklist and tick it off as you go:
 - Show me the plan summary and **WAIT for my OK** before continuing.
 
 ## 2. Implement
-- Set `status: in-progress` in the ticket file.
+- Set `status: in-progress` in the ticket file and in the `tickets/README.md` table.
 - Delegate to the `pong:implementer` subagent with the ticket id.
 - STATUS: BLOCKED → show me the reason and stop.
 
@@ -40,6 +40,6 @@ Copy this checklist and tick it off as you go:
 - MED/LOW findings → list them for me. Don't fix them automatically.
 
 ## 5. Hand off
-- Set `status: review` in the ticket file.
+- Set `status: review` in the ticket file and in the `tickets/README.md` table.
 - Summarize: what changed, check results, review findings, anything left open.
 - Do not push or open a PR. I do that.

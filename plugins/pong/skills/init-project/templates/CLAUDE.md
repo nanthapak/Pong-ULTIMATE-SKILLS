@@ -18,11 +18,12 @@
 ## Structure
 - `src/`      <what lives here>
 - `tests/`    <test layout>
-- `docs/`     PRD and spec
+- `docs/`     decisions.md, prd.md, spec.md
 - `tickets/`  One file per ticket, plus `<id>.plan.md` written by the planner
 
 ## Workflow
-- Planning (once per project/epic): /grill-me → /to-prd → /to-spec → /to-tickets
+- Planning (once per project/epic): /pong:plan-project <idea>
+  (= /pong:grill → /pong:prd → /pong:spec → /pong:tickets)
 - Building (once per ticket): /pong:run-ticket <id>
 
 ## Conventions
